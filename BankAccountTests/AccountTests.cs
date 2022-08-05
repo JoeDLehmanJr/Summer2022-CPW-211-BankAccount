@@ -112,7 +112,7 @@ namespace BankAccount.Tests
         [TestMethod]
         public void Withdraw_MoreThanAvailableBalance_ThrowsArgumentException()
         {
-            Assert.Fale();
+            Assert.Fail();
         }
     }
 }
