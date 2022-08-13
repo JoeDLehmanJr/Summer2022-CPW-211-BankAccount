@@ -85,34 +85,43 @@ namespace BankAccount.Tests
         }
 
         [TestMethod]
-        public void Withdraw_PositiveAmount_ReturnsUpdatedBalance()
+        [DataRow(100, 50)] 
+        [DataRow(100, .99)]
+        public void Withdraw_PositiveAmount_ReturnsUpdatedBalance(double initialDeposit, double withdrawAmount)
         {
             // Arrange
-            double initialDeposit = 100;
-            double withdrawAmount = 50;
-            double expectedReturn = initialDeposit - withdrawAmount;
-            double actualReturn = 0;
+            double expectedBalance = initialDeposit - withdrawAmount;
+            
             
             // Act
             acc.Deposit(initialDeposit);
-            actualReturn = acc.Withdraw(withdrawAmount);
+            double returnedBalance = acc.Withdraw(withdrawAmount);
             
             // Assert
-            Assert.AreEqual(expectedReturn, actualReturn);
+            Assert.AreEqual(expectedBalance, returnedBalance);
         }
 
         [TestMethod]
         [DataRow(0)]
         [DataRow(-.01)]
         [DataRow(-1000)]
-        public void Withdraw_ZeroOrLess_ThrowsArgumentOutOfRangeException()
+        public void Withdraw_ZeroOrLess_ThrowsArgumentOutOfRangeException(double withdrawAmount)
         {
-            Assert.Fail();
+            // Arrange
+            // Act
+            // Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => acc.Withdraw(withdrawAmount));
+
         }
         [TestMethod]
         public void Withdraw_MoreThanAvailableBalance_ThrowsArgumentException()
         {
-            Assert.Fail();
+            // Arrange
+            double withdrawAmount = 1000;
+            // Act
+
+            // Assert
+            Assert.ThrowsException<ArgumentException>(() => acc.Withdraw(withdrawAmount));
         }
     }
 }
